@@ -12,9 +12,7 @@ def test_setup_parse():
     """take setup.py and get lists-install_requires,
     test_requires, setup_requires"""
     parse_setup = parse_setup_file()
-    assert isinstance(parse_setup['install'], list)
-    assert isinstance(parse_setup['test'], list)
-    assert isinstance(parse_setup['setup'], list)
+    assert isinstance(parse_setup, list)
 
 
 def test_insert_versions():
@@ -22,9 +20,7 @@ def test_insert_versions():
     make for new lists with versions"""
     parse_setup = parse_setup_file()
     pkgs = freeze_pkgs(parse_setup, get_pkgs(), add_new=False)
-    assert len(pkgs['install']) == len(parse_setup['install'])
-    assert len(pkgs['test']) == len(parse_setup['test'])
-    assert len(pkgs['setup']) == len(parse_setup['setup'])
+    assert len(pkgs) == len(parse_setup)
 
 
 def test_setup_altered():
