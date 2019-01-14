@@ -1,7 +1,7 @@
 import pkg_resources
 import itertools
 from typing import Iterable, Dict, List
-from setup_ast import SetupWrapper
+from src.setup_ast import SetupWrapper
 from pathlib import Path
 try:
     from pip._internal.operations import freeze
@@ -16,9 +16,9 @@ def get_pkgs() -> Iterable[List[str]]:
 
 def parse_setup_file(wrapper: SetupWrapper) -> Dict[str, list]:
     """parse setup.py file to make requirements lists"""
-    pathlib_path = Path(path)
-    tree = pathlib_path.read_text()
-    return wrapper.get_pkgs(tree)
+    pathlib_path = next(Path('.').glob('setup.py'))  # get first match
+    setup_file = pathlib_path.read_text()
+    return wrapper.get_pkgs(setup_file)
 
 
 def freeze_pkgs(old_lists: Dict[str, list], new_list: Iterable[List[str]],
