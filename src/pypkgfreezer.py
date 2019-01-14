@@ -1,6 +1,6 @@
 import pkg_resources
 import itertools
-from typing import Iterable
+from typing import Iterable, Dict, List
 from setup_ast import SetupWrapper
 from pathlib import Path
 try:
@@ -9,20 +9,20 @@ except ImportError:  # pip < 10.0
     from pip.operations import freeze
 
 
-def get_pkgs() -> Iterable[list]:
+def get_pkgs() -> Iterable[List[str]]:
     """run pip freeze and make a list of [name, version]"""
     return (line.strip().split("==") for line in freeze.freeze())
 
 
-def parse_setup_file(wrapper: SetupWrapper) -> dict(str, list):
+def parse_setup_file(wrapper: SetupWrapper) -> Dict[str, list]:
     """parse setup.py file to make requirements lists"""
     pathlib_path = Path(path)
     tree = pathlib_path.read_text()
     return wrapper.get_pkgs(tree)
 
 
-def freeze_pkgs(old_lists: Iterable[str], new_list: Iterable[list],
-                add_new: bool = False) -> dict(str, list):
+def freeze_pkgs(old_lists: Dict[str, list], new_list: Iterable[List[str]],
+                add_new: bool = False) -> Dict[str, list]:
     """take old lists of requirements and insert versions
     add_new configures whether to add new pkgs inside new_lists
     that don't exist in old_lists"""
@@ -38,7 +38,7 @@ def freeze_pkgs(old_lists: Iterable[str], new_list: Iterable[list],
     return new_pkgs
 
 
-def alter_setup_file(wrapper: SetupWrapper, new_lists: Iterable[(str, list)]):
+def alter_setup_file(wrapper: SetupWrapper, new_lists: Dict[str, list]):
     """ take new_lists and insert them to setup.py"""
     return wrapper.alter_pkgs(new_lists)
 
