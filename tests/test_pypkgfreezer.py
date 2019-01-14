@@ -15,14 +15,14 @@ def wrapper():
     return SetupWrapper()
 
 
-def test_setup_parse(wrapper):
+def test_setup_parse(wrapper: SetupWrapper):
     """take setup.py and get lists-install_requires,
     test_requires, setup_requires"""
     parse_setup = parse_setup_file(wrapper)
     assert isinstance(parse_setup, list)
 
 
-def test_insert_versions(wrapper):
+def test_insert_versions(wrapper: SetupWrapper):
     """test that parsed lists and pip output
     make for new lists with versions"""
     parse_setup = parse_setup_file(wrapper)
@@ -30,7 +30,7 @@ def test_insert_versions(wrapper):
     assert len(pkgs) == len(parse_setup)
 
 
-def test_setup_altered(wrapper):
+def test_setup_altered(wrapper: SetupWrapper):
     """ alter setup.py with altered lists"""
     parse_setup = parse_setup_file(wrapper)
     pkgs = freeze_pkgs(parse_setup, get_pkgs(), add_new=False)

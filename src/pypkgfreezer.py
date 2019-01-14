@@ -14,7 +14,7 @@ def get_pkgs() -> Iterable[list]:
     return (line.strip().split("==") for line in freeze.freeze())
 
 
-def parse_setup_file(wrapper: SetupWrapper) -> [[list]]:
+def parse_setup_file(wrapper: SetupWrapper) -> dict(str, list):
     """parse setup.py file to make requirements lists"""
     pathlib_path = Path(path)
     tree = pathlib_path.read_text()
@@ -22,7 +22,7 @@ def parse_setup_file(wrapper: SetupWrapper) -> [[list]]:
 
 
 def freeze_pkgs(old_lists: Iterable[str], new_list: Iterable[list],
-                add_new: bool = False) -> [[list]]:
+                add_new: bool = False) -> dict(str, list):
     """take old lists of requirements and insert versions
     add_new configures whether to add new pkgs inside new_lists
     that don't exist in old_lists"""
