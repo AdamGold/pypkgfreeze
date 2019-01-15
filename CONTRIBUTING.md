@@ -17,7 +17,7 @@ Clone the repository and run inside it:
 ```sh
 python -m venv venv # Create a virtual enviroment
 source venv/bin/activate # Activate it
-pip install -e . # Install the project in an [e]ditable way
+pip install -e .[test] # Install the project in an [e]ditable way
 ```
 
 ## Write the tests (before or after the actual solution? Your call)

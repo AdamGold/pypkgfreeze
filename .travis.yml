@@ -1,0 +1,16 @@
+language: python
+python:
+    - "3.6"
+install:
+    - pip install .
+# command to run tests
+script:
+    - pytest
+
+deploy:
+    provider: pypi
+    user: $PYPI_USER
+    password: $PYPI_PASSWORD
+    on:
+        branch: master
+        tag: true

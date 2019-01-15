@@ -23,8 +23,9 @@ def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
         for (name, version) in new_list:
             # find and replace name in setup.py
             # regex https://regex101.com/r/Pqwmhx/1
-            text = re.sub(r"[\'\"]({})[\'\"]".format(name),
-                          r'"\1=={}"'.format(version), text)
+            text = re.sub(
+                r"[\'\"]({})[\'\"]".format(name), r'"\1=={}"'.format(version), text
+            )
     except ValueError:  # we don't have the version, let's ignore it
         pass
     return text
@@ -38,6 +39,6 @@ def write_to_file(path: Path, text: str):
 @click.command()
 def main():
     pip_output = get_pkgs()
-    setup_path = next(Path('.').glob('setup.py'))  # get first match
+    setup_path = next(Path(".").glob("setup.py"))  # get first match
     altered_setup = freeze_pkgs(setup_path.read_text(), pip_output)
     write_to_file(setup_path, altered_setup)

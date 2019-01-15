@@ -1,5 +1,7 @@
 # pypkgfreeze
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
 Automatically inserts your currently used package versions to setup.py.
 
 ### Example
