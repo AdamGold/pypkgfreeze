@@ -25,11 +25,11 @@ setup(
 
 ```py
 from setuptools import setup
-test_req = ['pytest==4.0.2', ]
+test_req = ['pytest==4.0.2', ]  # ADDED VERSION HERE
 setup(
     name='pypkgfreeze',
     install_requires=[
-        "Click==7.0",
+        "Click==7.0",  # AND HERE
     ],
     tests_require=test_req,
     extras_require={
