@@ -1,11 +1,9 @@
-import itertools
 import re
+import click
 from pathlib import Path
 from typing import Dict, Iterable, List
 
 import pkg_resources
-
-from src.setup_ast import SetupParser
 
 try:
     from pip._internal.operations import freeze
@@ -21,21 +19,25 @@ def get_pkgs() -> Iterable[List[str]]:
 def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
     """loop through new list and replace every occurence
     of a package with its freeze version"""
-    for (name, version) in new_list:
-        # find and replace name in setup.py
-        # regex https://regex101.com/r/Pqwmhx/1
-        text = re.sub(r"[\'\"]({})[\'\"]".format(name),
-                      r'"\1=={}"'.format(version), text)
+    try:
+        for (name, version) in new_list:
+            # find and replace name in setup.py
+            # regex https://regex101.com/r/Pqwmhx/1
+            text = re.sub(r"[\'\"]({})[\'\"]".format(name),
+                          r'"\1=={}"'.format(version), text)
+    except ValueError:  # we don't have the version, let's ignore it
+        pass
     return text
 
 
-def write_to_setup(path: Path, text: str):
+def write_to_file(path: Path, text: str):
     """write text to setup.py"""
     path.write_text(text)
 
 
+@click.command()
 def main():
     pip_output = get_pkgs()
     setup_path = next(Path('.').glob('setup.py'))  # get first match
     altered_setup = freeze_pkgs(setup_path.read_text(), pip_output)
-    write_to_setup(setup_path, altered_setup)
+    write_to_file(setup_path, altered_setup)

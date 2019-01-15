@@ -14,5 +14,5 @@ setup(
     extras_require={
         'test': test_req
     },
-    entry_points={'console_scripts': "pkgfreeze=src.command:cli"}
+    entry_points={'console_scripts': "pkgfreeze=src.pypkgfreeze:main"}
 )
