@@ -1,9 +1,9 @@
 import itertools
+import re
 from pathlib import Path
 from typing import Dict, Iterable, List
 
 import pkg_resources
-import re
 
 from src.setup_ast import SetupParser
 
@@ -18,34 +18,24 @@ def get_pkgs() -> Iterable[List[str]]:
     return (line.strip().split("==") for line in freeze.freeze())
 
 
-def freeze_pkgs(path: Path, new_list: Iterable[List[str]]) -> str:
+def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
     """loop through new list and replace every occurence
     of a package with its freeze version"""
-    setup_file_text = path.read_text()
     for (name, version) in new_list:
         # find and replace name in setup.py
         # regex https://regex101.com/r/Pqwmhx/1
-        setup_file_text = re.sub(r"[\'\"]({})[\'\"]".format(name),
-                                 r"\1=={}".format(version), setup_file_text)
-    return setup_file_text
+        text = re.sub(r"[\'\"]({})[\'\"]".format(name),
+                      r'"\1=={}"'.format(version), text)
+    return text
 
 
-def alter_setup_file(wrapper: SetupParser, new_lists: Dict[str, list]):
-    """ take new_lists and insert them to setup.py"""
-    return wrapper.alter_pkgs(new_lists)
-
-
-def write_to_setup(path, text: str):
+def write_to_setup(path: Path, text: str):
     """write text to setup.py"""
+    path.write_text(text)
 
 
 def main():
     pip_output = get_pkgs()
     setup_path = next(Path('.').glob('setup.py'))  # get first match
-    altered_setup = freeze_pkgs(setup_path, pip_output)
-    print(altered_setup)
+    altered_setup = freeze_pkgs(setup_path.read_text(), pip_output)
     write_to_setup(setup_path, altered_setup)
-
-
-if __name__ == "__main__":
-    main()

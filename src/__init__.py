@@ -1,1 +1,1 @@
-from . import setup_ast, command, pypkgfreezer
+from . import setup_ast, command, pypkgfreeze

@@ -3,11 +3,11 @@ from setuptools import setup
 test_req = ['pytest==4.0.2', ]
 
 setup(
-    name='pypkgfreezer',
+    name='pypkgfreeze',
     version='0.1',
     packages=['src'],
     install_requires=[
-        "Click",
+        "Click==7.0",
     ],
     tests_require=test_req,
     setup_requires=['pytest-runner==4.2'],
