@@ -1,7 +1,7 @@
 from src.pypkgfreezer import (get_pkgs, parse_setup_file,
                               freeze_pkgs, alter_setup_file)
 import pytest
-from src.setup_ast import SetupWrapper
+from src.setup_ast import SetupParser
 
 
 def test_pip_output():
@@ -12,17 +12,17 @@ def test_pip_output():
 
 @pytest.fixture
 def wrapper():
-    return SetupWrapper()
+    return SetupParser()
 
 
-def test_setup_parse(wrapper: SetupWrapper):
+def test_setup_parse(wrapper: SetupParser):
     """take setup.py and get lists-install_requires,
     test_requires, setup_requires"""
     parse_setup = parse_setup_file(wrapper)
     assert isinstance(parse_setup, list)
 
 
-def test_insert_versions(wrapper: SetupWrapper):
+def test_insert_versions(wrapper: SetupParser):
     """test that parsed lists and pip output
     make for new lists with versions"""
     parse_setup = parse_setup_file(wrapper)
@@ -30,7 +30,7 @@ def test_insert_versions(wrapper: SetupWrapper):
     assert len(pkgs) == len(parse_setup)
 
 
-def test_setup_altered(wrapper: SetupWrapper):
+def test_setup_altered(wrapper: SetupParser):
     """ alter setup.py with altered lists"""
     parse_setup = parse_setup_file(wrapper)
     pkgs = freeze_pkgs(parse_setup, get_pkgs(), add_new=False)

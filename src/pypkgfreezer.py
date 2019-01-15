@@ -1,8 +1,11 @@
-import pkg_resources
 import itertools
-from typing import Iterable, Dict, List
-from src.setup_ast import SetupWrapper
 from pathlib import Path
+from typing import Dict, Iterable, List
+
+import pkg_resources
+
+from src.setup_ast import SetupParser
+
 try:
     from pip._internal.operations import freeze
 except ImportError:  # pip < 10.0
@@ -14,7 +17,7 @@ def get_pkgs() -> Iterable[List[str]]:
     return (line.strip().split("==") for line in freeze.freeze())
 
 
-def parse_setup_file(wrapper: SetupWrapper) -> Dict[str, list]:
+def parse_setup_file(wrapper: SetupParser) -> Dict[str, list]:
     """parse setup.py file to make requirements lists"""
     pathlib_path = next(Path('.').glob('setup.py'))  # get first match
     setup_file = pathlib_path.read_text()
@@ -38,13 +41,13 @@ def freeze_pkgs(old_lists: Dict[str, list], new_list: Iterable[List[str]],
     return new_pkgs
 
 
-def alter_setup_file(wrapper: SetupWrapper, new_lists: Dict[str, list]):
+def alter_setup_file(wrapper: SetupParser, new_lists: Dict[str, list]):
     """ take new_lists and insert them to setup.py"""
     return wrapper.alter_pkgs(new_lists)
 
 
 def main(add_new):
-    wrapper = SetupWrapper()
+    wrapper = SetupParser()
     pip_output = get_pkgs()
     setup_output = parse_setup_file(wrapper)
     new_pkgs = freeze_pkgs(setup_output, pip_output, add_new)

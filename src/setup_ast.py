@@ -2,7 +2,7 @@ import ast
 from typing import Dict
 
 
-class SetupWrapper():
+class SetupParser():
     """read ASTs from setup.py and parse them"""
 
     def __init__(self):
