@@ -3,7 +3,7 @@ from setuptools import setup
 test_req = ['pytest==4.0.2', ]
 
 setup(
-    name='pypkgfreezer',
+    name='pypkgfreeze',
     version='0.1',
     packages=['src'],
     install_requires=[
@@ -14,5 +14,5 @@ setup(
     extras_require={
         'test': test_req
     },
-    entry_points={'console_scripts': "pkgfreeze=src.command:cli"}
+    entry_points={'console_scripts': "pkgfreeze=src.pypkgfreeze:main"}
 )
