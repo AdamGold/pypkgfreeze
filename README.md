@@ -50,4 +50,4 @@ pip install pypkgfreeze
 
 ## Contributing
 
-Thanks! Please read the `CONTRIBUTING.md` file.
+Thanks! Please read the [`CONTRIBUTING.md`](https://github.com/AdamGold/pypkgfreeze/blob/master/CONTRIBUTING.md) file.
