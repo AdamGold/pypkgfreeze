@@ -7,7 +7,7 @@ setup(
     version='0.1',
     packages=['src'],
     install_requires=[
-        "Click==7.0",
+        "Click",
     ],
     tests_require=test_req,
     setup_requires=['pytest-runner==4.2'],

@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List
 
 import pkg_resources
+import re
 
 from src.setup_ast import SetupParser
 
@@ -17,28 +18,16 @@ def get_pkgs() -> Iterable[List[str]]:
     return (line.strip().split("==") for line in freeze.freeze())
 
 
-def parse_setup_file(wrapper: SetupParser) -> Dict[str, list]:
-    """parse setup.py file to make requirements lists"""
-    pathlib_path = next(Path('.').glob('setup.py'))  # get first match
-    setup_file = pathlib_path.read_text()
-    return wrapper.get_pkgs(setup_file)
-
-
-def freeze_pkgs(old_lists: Dict[str, list], new_list: Iterable[List[str]],
-                add_new: bool = False) -> Dict[str, list]:
-    """take old lists of requirements and insert versions
-    add_new configures whether to add new pkgs inside new_lists
-    that don't exist in old_lists"""
-    repeating_new_list = itertools.cycle(new_list)
-    new_pkgs = {}
-    for (name, requirements) in old_lists.items():
-        for (pkg, version) in repeating_new_list:
-            for (i, req) in enumerate(requirements):
-                if pkg in req:
-                    requirements[i] == f"{pkg}=={version}"
-        new_pkgs[name] = requirements
-
-    return new_pkgs
+def freeze_pkgs(path: Path, new_list: Iterable[List[str]]) -> str:
+    """loop through new list and replace every occurence
+    of a package with its freeze version"""
+    setup_file_text = path.read_text()
+    for (name, version) in new_list:
+        # find and replace name in setup.py
+        # regex https://regex101.com/r/Pqwmhx/1
+        setup_file_text = re.sub(r"[\'\"]({})[\'\"]".format(name),
+                                 r"\1=={}".format(version), setup_file_text)
+    return setup_file_text
 
 
 def alter_setup_file(wrapper: SetupParser, new_lists: Dict[str, list]):
@@ -46,10 +35,17 @@ def alter_setup_file(wrapper: SetupParser, new_lists: Dict[str, list]):
     return wrapper.alter_pkgs(new_lists)
 
 
-def main(add_new):
-    wrapper = SetupParser()
+def write_to_setup(path, text: str):
+    """write text to setup.py"""
+
+
+def main():
     pip_output = get_pkgs()
-    setup_output = parse_setup_file(wrapper)
-    new_pkgs = freeze_pkgs(setup_output, pip_output, add_new)
-    alter_setup_file(wrapper, new_pkgs)
-    return new_pkgs
+    setup_path = next(Path('.').glob('setup.py'))  # get first match
+    altered_setup = freeze_pkgs(setup_path, pip_output)
+    print(altered_setup)
+    write_to_setup(setup_path, altered_setup)
+
+
+if __name__ == "__main__":
+    main()
