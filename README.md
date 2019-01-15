@@ -1,4 +1,4 @@
-# pypkgfreezer
+# pypkgfreeze
 
 Automatically inserts your currently used package versions to setup.py.
 
@@ -47,3 +47,7 @@ setup(
 ```py
 pip install pypkgfreeze
 ```
+
+## Contributing
+
+Thanks! Please read the `CONTRIBUTING.md` file.

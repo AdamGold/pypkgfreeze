@@ -6,6 +6,9 @@ setup(
     name='pypkgfreeze',
     version='0.1',
     packages=['src'],
+    author="Adam Goldschmidt",
+    author_email="adamgold7@gmail.com",
+    description="Automatically inserts your currently used package versions to setup.py.",
     install_requires=[
         "Click==7.0",
     ],
