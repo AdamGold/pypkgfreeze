@@ -1,6 +1,8 @@
 # pypkgfreeze
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+##### Python's npm install --save
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Build Status](https://travis-ci.com/AdamGold/pypkgfreeze.svg?branch=master)](https://travis-ci.com/AdamGold/pypkgfreeze)
 
 Automatically inserts your currently used package versions to setup.py.
 
