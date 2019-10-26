@@ -1,4 +1,4 @@
-from src.pypkgfreeze import get_pkgs, freeze_pkgs, write_to_file
+from pypkgfreeze.pypkgfreeze import get_pkgs, freeze_pkgs, write_to_file
 import pytest
 
 

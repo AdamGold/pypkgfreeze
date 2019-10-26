@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 test_req = ["pytest==5.2.2"]
 with open("README.md", "r") as fh:
@@ -6,8 +6,8 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pypkgfreeze",
-    version="0.1.5",
-    packages=["src"],
+    version="0.1.6",
+    packages=find_packages(),
     author="Adam Goldschmidt",
     author_email="adamgold7@gmail.com",
     description="Automatically inserts your currently used package versions to setup.py.",
@@ -18,7 +18,7 @@ setup(
     tests_require=test_req,
     setup_requires=["pytest-runner==4.2"],
     extras_require={"test": test_req},
-    entry_points={"console_scripts": "pkgfreeze=src.pypkgfreeze:main"},
+    entry_points={"console_scripts": "pkgfreeze=pypkgfreeze.pypkgfreeze:main"},
     license="BSD",
     classifiers=[
         "Programming Language :: Python :: 3",
