@@ -27,7 +27,9 @@ def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
         # find and replace name in setup.py
         # regex https://regex101.com/r/Pqwmhx/1
         text = re.sub(
-            r"[\'\"]({})[\'\"]".format(name), r'"\1=={}"'.format(version), text
+            r"[\'\"]({})[\'\"]".format(re.escape(name)),
+            r'"\1=={}"'.format(version),
+            text,
         )
 
     return text
