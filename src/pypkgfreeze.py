@@ -19,15 +19,17 @@ def get_pkgs() -> Iterable[List[str]]:
 def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
     """loop through new list and replace every occurence
     of a package with its freeze version"""
-    try:
-        for (name, version) in new_list:
-            # find and replace name in setup.py
-            # regex https://regex101.com/r/Pqwmhx/1
-            text = re.sub(
-                r"[\'\"]({})[\'\"]".format(name), r'"\1=={}"'.format(version), text
-            )
-    except ValueError:  # we don't have the version, let's ignore it
-        pass
+    for pkg in new_list:
+        try:
+            name, version = pkg
+        except ValueError:  # we don't have the version, let's ignore it
+            continue
+        # find and replace name in setup.py
+        # regex https://regex101.com/r/Pqwmhx/1
+        text = re.sub(
+            r"[\'\"]({})[\'\"]".format(name), r'"\1=={}"'.format(version), text
+        )
+
     return text
 
 
@@ -42,3 +44,6 @@ def main():
     setup_path = next(Path(".").glob("setup.py"))  # get first match
     altered_setup = freeze_pkgs(setup_path.read_text(), pip_output)
     write_to_file(setup_path, altered_setup)
+
+
+main()
