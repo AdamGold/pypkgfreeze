@@ -46,6 +46,3 @@ def main():
     setup_path = next(Path(".").glob("setup.py"))  # get first match
     altered_setup = freeze_pkgs(setup_path.read_text(), pip_output)
     write_to_file(setup_path, altered_setup)
-
-
-main()
