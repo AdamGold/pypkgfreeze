@@ -1,6 +1,6 @@
 from setuptools import setup
 
-test_req = ["pytest==4.1.0"]
+test_req = ["pytest==5.2.2"]
 with open("README.md", "r") as fh:
     long_description = fh.read()
 

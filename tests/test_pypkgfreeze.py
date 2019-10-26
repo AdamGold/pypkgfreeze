@@ -1,5 +1,4 @@
-from src.pypkgfreeze import (get_pkgs, freeze_pkgs,
-                             write_to_file)
+from src.pypkgfreeze import get_pkgs, freeze_pkgs, write_to_file
 import pytest
 
 
@@ -12,7 +11,7 @@ def test_pip_output():
 def test_freeze_pkgs():
     """test to see if the method
     catches the right packages and adds their version"""
-    test_list = [['Test', '0.3'], ['Other', '1.2']]
+    test_list = [["Test", "0.3"], ["Other", "1.2"]]
     test_text = "setup(test_requires=['Test', 'Other==1.5])"
     expect_text = 'test_requires=["Test==0.3"'
     assert expect_text in freeze_pkgs(test_text, test_list)
