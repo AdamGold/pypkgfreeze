@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pypkgfreeze",
-    version="0.1.3",
+    version="0.1.5",
     packages=["src"],
     author="Adam Goldschmidt",
     author_email="adamgold7@gmail.com",

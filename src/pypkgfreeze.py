@@ -25,11 +25,9 @@ def freeze_pkgs(text: str, new_list: Iterable[List[str]]) -> str:
         except ValueError:  # we don't have the version, let's ignore it
             continue
         # find and replace name in setup.py
-        # regex https://regex101.com/r/Pqwmhx/2
+        # regex https://regex101.com/r/Pqwmhx/3
         text = re.sub(
-            r"[\'\"]({})\=?\=?([0-9]+\.)?([0-9]+\.)?([0-9]+)?[\'\"]".format(
-                re.escape(name)
-            ),
+            r"[\'\"]({})\=?\=?([\d.]+)?[\'\"]".format(re.escape(name)),
             r'"\1=={}"'.format(version),
             text,
         )
