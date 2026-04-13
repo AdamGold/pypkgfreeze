@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-test_req = ["pytest==5.2.2"]
+test_req = ["pytest==9.0.3"]
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
